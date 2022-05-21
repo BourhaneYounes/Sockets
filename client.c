@@ -22,7 +22,7 @@ int main(void){
     connect(socketClient, (const struct sockaddr*)&addrServer, sizeof(addrClient));
     printf("connection\n");
 
-    recv(socketClient, bytes_recv, 1024, 0);
+    recv(socketClient, rcv_data, 1024, 0);
 
     close(socketClient);
     
