@@ -14,7 +14,7 @@
 int main(void){
 
     int socketServer = socket(AF_INET, SOCK_STREAM, 0);
-    char send_data[1024] = {'a','b','c'};
+    char msg[] = "hello world";
     struct sockaddr_in addrServer;
     addrServer.sin_addr.s_addr = inet_addr("127.0.0.1");
     addrServer.sin_family = AF_INET;
@@ -33,7 +33,7 @@ int main(void){
 
     printf("client: %d\n", socketClient);
 
-    send(socketClient, send_data, 1024,0);
+    send(socketClient, msg, 10,0);
 
     close(socketClient);
     close(socketServer);
