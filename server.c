@@ -8,6 +8,8 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<errno.h>
+#include<pthread.h>
+
 
 int main(void){
 
