@@ -23,6 +23,7 @@ int main(void){
     printf("connection\n");
 
     recv(socketClient, rcv_data, 1024, 0);
+    printf("%s", rcv_data);
 
     close(socketClient);
     
