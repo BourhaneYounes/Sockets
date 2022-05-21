@@ -19,7 +19,7 @@ int main(void){
     addrServer.sin_family = AF_INET;
     addrServer.sin_port = htons(3000);
 
-    connect(socketClient, (const struct sockaddr*)&addrServer, sizeof(addrClient));
+    connect(socketClient, (const struct sockaddr*)&addrServer, sizeof(addrServer));
     printf("connection\n");
 
     recv(socketClient, rcv_data, 1024, 0);
