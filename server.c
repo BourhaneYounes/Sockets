@@ -10,6 +10,17 @@
 #include<errno.h>
 #include<pthread.h>
 
+void* function(void* arg){
+    int socket = *(int*)arg;
+    char msg[] = "nom :";
+    send(socket, msg,strlen(msg)+1, 0);
+    recv(socket, msg, 7, 0);
+    printf("%s\n", msg);
+    close(socket);
+    free(arg);
+    pthread_exit(NULL);
+}
+
 
 int main(void){
 
@@ -26,16 +37,28 @@ int main(void){
     listen(socketServer, 5);
     printf("listen\n");
 
-    struct sockaddr_in addrClient;
-    socklen_t csize = sizeof(addrClient);
-    int socketClient = accept(socketServer, (struct sockaddr *)&addrClient, &csize);
-    printf("accept\n");
+    pthread_t threads[3];
 
-    printf("client: %d\n", socketClient);
+    for (int i = 0; i<3; i++){
+        struct sockaddr_in addrClient;
+        socklen_t csize = sizeof(addrClient);
+        int socketClient = accept(socketServer, (struct sockaddr *)&addrClient, &csize);
+        printf("accept\n");
 
-    send(socketClient, msg, 10,0);
+        printf("client: %d\n", socketClient);
 
-    close(socketClient);
+        int *arg = malloc(sizeof(int));
+        *arg = socketClient;
+        pthread_create(&threads[i], NULL, function,arg);
+    }
+
+    for (int i = 0; i<3; i++){
+        pthread_join(threads[i],NULL);
+    }
+
+    //send(socketClient, msg, 10,0);
+
+    //close(socketClient);
     close(socketServer);
     printf("close \n");
 
